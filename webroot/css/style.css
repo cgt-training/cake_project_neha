@@ -1,0 +1,102 @@
+.navbar-default {
+background:none;
+border:none;
+}
+.navbar-brand 
+{
+	font-size: 14px;
+	font-weight: bold;
+}
+.navbar-default .navbar-nav > .active > a, .nav .nav-tabs > .active > a
+{
+	color: darkorange;
+	background:none;
+}
+.blog-background
+{
+	background : url('../img/Layer 16.png');
+	float: left;
+	width: 100%;
+	height: 150px;
+	background-size: cover;
+}
+.orange-text
+{
+	color: darkorange ;
+}
+.section-blog > span.date-font
+{
+	border-collapse: collapse;
+	text-align: center;
+	font-size: 30px;
+	font-weight: bold;
+}
+.section-blog
+{
+	border-collapse: collapse;
+    float: left;
+    position: relative;
+    border : 1px solid #CCC;
+    height:100%;
+
+}
+.posted-text
+{
+	font: 16px sans-serif;
+	padding-top: 4px;
+	font-weight: bold;
+}
+.post-image
+{
+	float: left;
+	width:100%;
+}
+div.outer-section
+{
+	padding-top: 20px;
+	float: left;
+    width: 100%;
+}
+.outer-footer
+{
+	margin-top: 20px;
+	padding-bottom: 10px;
+	float: left;
+	width:100%;
+	/*height: 100%;*/
+	background-color: rgba(0, 0, 0, 0.75);
+	text-align: center;
+	line-height: 20px;
+	color:grey;
+	position: absolute;
+}
+.social-icon
+{
+	padding:15px;
+}
+#recent_posts .row span
+{
+	font-size:11px ;
+}
+.post-section 
+{
+    border: 1px solid grey;
+    padding:5px 5px 0px 5px;
+
+    /*margin-bottom: 10px !important;*/
+    border-radius: 4px;
+}
+.glyphicon.glyphicon-trash
+{
+	color:red;
+}
+.glyphicon.glyphicon-comment
+{
+	color:orange;
+}
+textarea
+{
+	
+	resize:none;
+}
+
