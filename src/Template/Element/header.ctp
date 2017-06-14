@@ -1,11 +1,11 @@
 <section>
-	<div class="col-md-6 col-sm-6 col-xs-12" style="text-align: center">
+	<div class="col-md-4 col-sm-4 col-xs-12" style="text-align: center">
 
 		<!-- <img src="images/logoBlog.png"/> -->
 		<?php echo $this->Html->image("logoBlog.png",array("alt" =>'Logo ', "border" =>'0')); ?>
 	</div>
 
-<div class="col-md-6 col-sm-6 col-xs-12">
+<div class="col-md-8 col-sm-8 col-xs-12">
 	  <nav class="navbar navbar-default">
 	  <div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
@@ -23,7 +23,8 @@
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav">
 	      <li><?= $this->Html->link(__('ARTICLES'), ['controller'=>'Articles','action' => 'index'],['class'=>'navbar-brand']) ?></li>
-	      	<li><?= $this->Html->link(__('PAGES'), ['controller'=>'Pages','action' => 'display','home'],['class'=>'navbar-brand']) ?></li>
+	      	<li><?= $this->Html->link(__('COMPANIES'), ['controller'=>'Companies','action' => 'index'],['class'=>'navbar-brand']) ?></li>
+	      	<li><?= $this->Html->link(__('BRANCHES'), ['controller'=>'Branches','action' => 'index'],['class'=>'navbar-brand']) ?></li>
 	        <li class="active">
 		        <?= $this->Html->link(__('USERS'), ['controller'=>'Users','action' => 'index'],['class'=>'navbar-brand']) ?>
 		        <span class="sr-only">(current)</span>

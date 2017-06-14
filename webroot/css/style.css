@@ -94,6 +94,10 @@ div.outer-section
 {
 	color:orange;
 }
+.glyphicon.glyphicon-edit
+{
+	color: darkgreen;
+}
 textarea
 {
 	

@@ -154,12 +154,7 @@ $(document).ready(function()
 			{	
 				if(response.status==true)
 				{
-					<?php //$this->Flash->success(__("The comment has been updated."));?>
 					$("#comment_text_"+comment_id).html(response.comment_text);
-				}
-				else
-				{
-					<?php //$this->Flash->error(__('The comment could not be saved. Please, try again.'));?>
 				}
 				$("#editbox_"+comment_id).slideUp();
 				$("#comment_"+comment_id).slideDown();
