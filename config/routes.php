@@ -44,7 +44,11 @@ use Cake\Routing\Route\DashedRoute;
 Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {
-    Router::prefix('Admin', function ($routes) {
+    $routes->connect('/', ['controller' => 'Posts', 'action' => 'index']);
+    $routes->fallbacks(DashedRoute::class);
+});
+
+Router::prefix('Admin', function ($routes) {
     // Because you are in the admin scope,
     // you do not need to include the /admin prefix
     // or the admin route element.
@@ -52,12 +56,13 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/', ['controller' => 'Users', 'action' => 'login']);
     $routes->fallbacks(DashedRoute::class);
 });
+    
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Posts', 'action' => 'index']);
+    
     
    // $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
 
@@ -82,9 +87,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      * You can remove these routes once you've connected the
      * routes you want in your application.
      */
-    $routes->fallbacks(DashedRoute::class);
-});
-
+    
 /**
  * Load all plugin routes. See the Plugin documentation on
  * how to customize the loading of plugin routes.

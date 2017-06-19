@@ -22,9 +22,9 @@ class UsersController extends AppController
     public function index()
     {
         $users = $this->paginate($this->Users);
-        if($this->Cookie->check('User.name') && $this->Cookie->check('User.password'))
+        if($this->Cookie->check('User.username') && $this->Cookie->check('User.password'))
         {
-            $cookie_data['username'] = $this->Cookie->read('User.name');
+            $cookie_data['username'] = $this->Cookie->read('User.username');
             $cookie_data['password'] = $this->Cookie->read('User.password');
         }
         $this->set(compact('users','cookie_data'));
@@ -47,12 +47,23 @@ class UsersController extends AppController
             $user = $this->Auth->identify();
             if ($user) 
             {
-                $username = $this->request->data['username'];
-                $password = $this->request->data['password'];
                 $this->Auth->setUser($user);
                 $this->request->session()->write('Auth.User.role','role');
-                $this->Cookie->write('User',['name'=>$username,'password'=>$password]);
-                return $this->redirect($this->Auth->redirectUrl());
+                if(isset($this->request->data['RememberMe']) && $this->request->data['RememberMe']=='1')
+                {
+                    $username = $this->request->data['username'];
+                    $password = $this->request->data['password'];
+                    $this->Cookie->configKey('User','path','/');
+                    $this->Cookie->configKey('User',
+                                        [
+                                            'expires'=>'+10 days',
+                                            'httpOnly'=>true
+                                        ]);
+
+                    $this->Cookie->write('User',['username'=>$username,'password'=>$password]);
+                    $this->Auth->setUser($user);
+                }
+                return $this->redirect($this->Auth->redirectUrl());                
             }
             $this->Flash->error(__('Invalid username or password, try again'));
         }
@@ -63,6 +74,7 @@ class UsersController extends AppController
     {
         $session = $this->request->session();
         $session->destroy();
+        $this->Cookie->delete('User');
         return $this->redirect($this->Auth->logout());
     }
 

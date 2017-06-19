@@ -43,14 +43,9 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
         $this->loadComponent('Cookie');
+//        $user = $this->request->session()->read('Auth.User.role');
 
-        $this->Cookie->config('path','/');
-        $this->Cookie->config('User',
-                    [
-                        'expires'=>'+10 days',
-                        'htttpOnly'=>true
-                    ]);
-
+        
         if(isset($this->request->prefix) && ($this->request->prefix =='admin'))
         {
             
@@ -77,17 +72,25 @@ class AppController extends Controller
             $this->loadComponent('Auth', [
             'loginRedirect' => [
                 'controller' => 'Users',
-                'action' => 'index'
+                'action' => 'index',
+                'prefix' => false
             ],
             'logoutRedirect' => [
                 'controller' => 'Users',
                 'action' => 'login',
-            ]
+                'prefix' => false
+            ],
+            'authenticate' => [
+                    'Form' => [
+                        'fields' => ['username' => 'username', 'password' => 'password']
+                    ]
+                ]
         ]);
         }
         
         
         $this->viewBuilder()->layout('mylayout');
+        $this->checkSessionCookie();
         /*
          * Enable the following components for recommended CakePHP security settings.
          * see http://book.cakephp.org/3.0/en/controllers/components/security.html
@@ -117,6 +120,34 @@ class AppController extends Controller
            // $this->Auth->allow(['login']);
         }
         else
+        {
             $this->Auth->allow(['login','index', 'view', 'display']);
+        }
+    }
+
+    public function checkSessionCookie()
+    {
+        $session = $this->request->session();
+        $session_data = $session->read('Auth');
+        if(empty($session_data))                // If session is empty
+        {
+            $cookie = $this->Cookie->read('User');
+            if(!empty($cookie))                 // If cookie data is set
+            {
+                $this->loadModel('Users');
+                $username = $cookie['username'];
+                
+                $user_data = $this->Users->findByUsername($username)->toArray();
+                if(!is_null($user_data[0]))         // if cookie data matches database
+                {
+                    $this->Auth->setUser($user_data[0]->toArray());
+                    $this->redirect($this->Auth->redirectUrl());
+                }
+                else 
+                    { 
+                        $this->Cookie->delete('User');
+                    }
+            }
+        }
     }
 }
