@@ -44,6 +44,14 @@ use Cake\Routing\Route\DashedRoute;
 Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {
+    Router::prefix('Admin', function ($routes) {
+    // Because you are in the admin scope,
+    // you do not need to include the /admin prefix
+    // or the admin route element.
+    //$routes->connect('/', ['controller' => 'Dashboards', 'action' => 'index']);
+    $routes->connect('/', ['controller' => 'Users', 'action' => 'login']);
+    $routes->fallbacks(DashedRoute::class);
+});
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file

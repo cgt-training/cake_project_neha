@@ -10,7 +10,7 @@
     </ul>
 </nav>
 <div class="users index large-9 medium-8 columns content">
-    <h3><?= __('Users') ?></h3>
+    <h3><?= __('Users') ?> &nbsp; / &nbsp; <?= $cookie_data['username']."--".$cookie_data['password'];?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>

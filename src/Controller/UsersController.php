@@ -22,8 +22,12 @@ class UsersController extends AppController
     public function index()
     {
         $users = $this->paginate($this->Users);
-
-        $this->set(compact('users'));
+        if($this->Cookie->check('User.name') && $this->Cookie->check('User.password'))
+        {
+            $cookie_data['username'] = $this->Cookie->read('User.name');
+            $cookie_data['password'] = $this->Cookie->read('User.password');
+        }
+        $this->set(compact('users','cookie_data'));
         $this->set('_serialize', ['users']);
         //print_r($this->request->session()->read());
     }
@@ -39,14 +43,16 @@ class UsersController extends AppController
     public function login()
     {
         $user = $this->Users->newEntity();
-       //echo "<pre>"; print_r($this->request);
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
-            //print_r($user);exit();
-            if ($user) {
+            if ($user) 
+            {
+                $username = $this->request->data['username'];
+                $password = $this->request->data['password'];
                 $this->Auth->setUser($user);
                 $this->request->session()->write('Auth.User.role','role');
-                    return $this->redirect($this->Auth->redirectUrl());
+                $this->Cookie->write('User',['name'=>$username,'password'=>$password]);
+                return $this->redirect($this->Auth->redirectUrl());
             }
             $this->Flash->error(__('Invalid username or password, try again'));
         }
@@ -56,7 +62,6 @@ class UsersController extends AppController
     public function logout()
     {
         $session = $this->request->session();
-        //echo "<pre>"; print_r($session->read());exit;
         $session->destroy();
         return $this->redirect($this->Auth->logout());
     }

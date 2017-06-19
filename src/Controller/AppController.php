@@ -40,10 +40,41 @@ class AppController extends Controller
     public function initialize()
     {
         parent::initialize();
-
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
-        $this->loadComponent('Auth', [
+        $this->loadComponent('Cookie');
+
+        $this->Cookie->config('path','/');
+        $this->Cookie->config('User',
+                    [
+                        'expires'=>'+10 days',
+                        'htttpOnly'=>true
+                    ]);
+
+        if(isset($this->request->prefix) && ($this->request->prefix =='admin'))
+        {
+            
+            $this->loadComponent('Auth', [
+                'loginRedirect' => [
+                    'authorize' => 'Controller',
+                    'controller' => 'Dashboards',
+                    'action' => 'index',
+                    'prefix'=>'admin'
+                ],
+                'logoutRedirect' => [
+                    'controller' => 'Users',
+                    'action' => 'login',
+                ],
+                'authenticate' => [
+                    'Form' => [
+                        'fields' => ['username' => 'username', 'password' => 'password']
+                    ]
+                ]
+            ]);
+        }
+        else
+        {
+            $this->loadComponent('Auth', [
             'loginRedirect' => [
                 'controller' => 'Users',
                 'action' => 'index'
@@ -53,6 +84,9 @@ class AppController extends Controller
                 'action' => 'login',
             ]
         ]);
+        }
+        
+        
         $this->viewBuilder()->layout('mylayout');
         /*
          * Enable the following components for recommended CakePHP security settings.
@@ -78,6 +112,11 @@ class AppController extends Controller
     }
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['login','index', 'view', 'display']);
+        if(isset($this->request->prefix) && ($this->request->prefix =='admin'))
+        {
+           // $this->Auth->allow(['login']);
+        }
+        else
+            $this->Auth->allow(['login','index', 'view', 'display']);
     }
 }
