@@ -103,4 +103,17 @@ textarea
 	
 	resize:none;
 }
+.box-footer
+{
+	background: none;
+}
+.fa.fa-eye
+{
+	font-size:16px;
+}
+hr
+{
+	margin-top:0px;
+}
+
 

@@ -12,9 +12,20 @@ class DashboardsController extends AppController
 
     public function index()
     {
-       // $articles = $this->paginate($this->Articles);
+ 		$this->loadModel('Articles');
+        $query = $this->Articles->find('all');
+	    $articles_count = $query->count();
 
-//this->set(compact('articles'));
-//$this->set('_serialize', ['articles']);
+	    $this->loadModel('Posts');
+        $post_count = $this->Posts->find('all')->count();
+
+	    $this->loadModel('Companies');
+        $company_count = $this->Companies->find('all')->count();
+
+	    $this->loadModel('Users');
+        $users_count = $this->Users->find('all')->count();
+
+		$this->set(compact('articles_count','post_count','company_count','users_count'));
+		//$this->set('_serialize', ['articles']);
     }
 }

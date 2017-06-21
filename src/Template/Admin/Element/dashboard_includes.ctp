@@ -18,4 +18,7 @@
   echo $this->Html->css("plugins/datepicker3.css");
   echo $this->Html->css("plugins/daterangepicker.css");
   echo $this->Html->css("plugins/bootstrap3-wysihtml5.min.css");
+  echo $this->Html->css("style.css");
+  //echo $this->Html->css('base.css');
+  //echo $this->Html->css('cake.css');
   ?>

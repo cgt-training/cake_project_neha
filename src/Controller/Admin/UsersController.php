@@ -9,13 +9,14 @@ class UsersController extends AppController
 	 public function initialize()
     {
         parent::initialize();
-
+        $this->viewBuilder()->layout('dashboard_layout');
         $this->loadModel('Users');
-        $this->viewBuilder()->layout('login_layout');
     }
 
     public function login()
     {
+        $this->viewBuilder()->layout('login_layout');
+
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) 
     	{
