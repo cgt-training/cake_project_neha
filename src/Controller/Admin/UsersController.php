@@ -32,7 +32,7 @@ class UsersController extends AppController
     	 	$user1 = $this->Auth->identify();
             if ($user1 && ($user1['role']=='admin' || $user1['role']=='subadmin')) {
                 $this->Auth->setUser($user1);
-                $this->request->session()->write('Auth.User.role','role');
+                $this->request->session()->write('Auth.User.role', $user1['role']);
                     return $this->redirect($this->Auth->redirectUrl());
             }
            
@@ -60,6 +60,7 @@ class UsersController extends AppController
     public function edit($id = null)
     {
         $user = $this->Users->get($id, ['contain'=>[]]);
+        
         if($this->request->is(['patch', 'post', 'put']))
         {
             $user = $this->Users->patchEntity($user, $this->request->getData());    
@@ -76,6 +77,12 @@ class UsersController extends AppController
     }
     public function delete($id = null)
     {
+        $user_session = $this->request->session()->read('Auth.User');
+        if($user_session['role'] != 'admin')
+        {
+            $this->Flash->error(__('You are not authorized to delete user.'));
+            return $this->redirect(['action' => 'index']);
+        }
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
 

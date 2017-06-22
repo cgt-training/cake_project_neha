@@ -23,8 +23,16 @@
                     <li class="list-group-item">
                         <b><?= $this->Html->link(__('List Companies'), ['action' => 'index']) ?></b>
                     </li>
-                    <li class="list-group-item">
+                    <?php
+                    $user_session = $this->request->session()->read('Auth.User');
+                    if($user_session['role']=='admin')
+                    {
+                        ?>
+                        <li class="list-group-item">
                         <b><?= $this->Form->postLink(__('Delete'),['action' => 'delete', $company->id],['confirm' => __('Are you sure you want to delete # {0}?', $company->id)])?></b></li>
+                        <?php
+                    }
+                    ?>
                     <li class="list-group-item">
                         <b><?= $this->Html->link(__('List Branches'), ['controller' => 'Branches', 'action' => 'index']) ?></b>
                         </li>

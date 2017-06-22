@@ -14,8 +14,11 @@ class PostsController extends AppController
 
     public function index()
     {
-    	$articles = $this->paginate($this->Posts);
-    	$posts = $this->Posts->find('all');
+        $this->paginate = [
+            'contain' => ['Users']
+        ];
+    	$posts = $this->paginate($this->Posts);
+    	//$posts = $this->Posts->find('all');
         $this->set(compact('posts'));
     }
 
@@ -50,8 +53,13 @@ class PostsController extends AppController
     /*-----------Edit Posts----------------*/
     public function edit($id = null)
 	{
-
-	    $post = $this->Posts->get($id);
+        $post = $this->Posts->get($id);
+        $session_user = $this->request->session()->read('Auth.User.id');
+        if($session_user != $post->user_id)
+        {
+            $this->Flash->error(__('You are not authorized to edit this post.'));
+                return $this->redirect(['action' => 'index']);
+        }
 	    if ($this->request->is(['post','put'])) {
 	        $post = $this->Posts->patchEntity($post, $this->request->data);
 	        $post->modified = date("Y-m-d H:i:s");
@@ -66,10 +74,15 @@ class PostsController extends AppController
     /*-------------Delete Post-------------*/
 	public function delete($id)
 	{
-
-	    $this->request->allowMethod(['post', 'delete']);
-
-	    $post = $this->Posts->get($id);
+        
+        $post = $this->Posts->get($id);
+        $session_user = $this->request->session()->read('Auth.User.id');
+        if($session_user != $post->user_id)
+        {
+            $this->Flash->error(__('You are not authorized to delete this post.'));
+                return $this->redirect(['action' => 'index']);
+        }
+        $this->request->allowMethod(['post', 'delete']);
 	    if ($this->Posts->delete($post)) {
 	        $this->Flash->success(__('The post with id: {0} has been deleted.', h($id)));
 	        return $this->redirect(['action' => 'index']);

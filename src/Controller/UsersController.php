@@ -52,7 +52,7 @@ class UsersController extends AppController
             if ($user) 
             {
                 $this->Auth->setUser($user);
-                $this->request->session()->write('Auth.User.role','role');
+                $this->request->session()->write('Auth.User.role',$user['role']);
                 if(isset($this->request->data['RememberMe']) && $this->request->data['RememberMe']=='1')
                 {
                     $username = $this->request->data['username'];

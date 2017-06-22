@@ -107,6 +107,12 @@ class BranchesController extends AppController
      */
     public function delete($id = null)
     {
+        $user_session = $this->request->session()->read('Auth.User');
+        if($user_session['role'] != 'admin')
+        {
+            $this->Flash->error(__('You are not authorized to delete branch.'));
+            return $this->redirect(['action' => 'index']);
+        }
         $this->request->allowMethod(['post', 'delete']);
         $branch = $this->Branches->get($id);
         if ($this->Branches->delete($branch)) {

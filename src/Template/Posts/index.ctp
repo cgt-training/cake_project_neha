@@ -13,18 +13,30 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($posts as $post): ?>
+            <?php
+            // /pr($posts);exit;
+             foreach ($posts as $post): ?>
             <tr>
                 <td><?= $this->Number->format($post->id) ?></td>
                 <td><?= h($post->title) ?></td>
                 <td><?= h($post->created) ?></td>
                 <td><?= h($post->modified) ?></td>
-                <td><?= $post->has('user') ? $this->Html->link($post->user->id, ['controller' => 'Users', 'action' => 'view', $post->user->id]) : '' ?></td>
+                <td><?= $post->has('user') ? h($post->user->username):'';?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__("<i class='glyphicon glyphicon-list'></i>"), ['action' => 'view', $post->id],['escape'=>false]) ?>&nbsp;&nbsp;
-                    <?= $this->Html->link(__("<i class='glyphicon glyphicon-edit'></i>"), ['action' => 'edit', $post->id],['escape'=>false]) ?>&nbsp;&nbsp;
-                    <?= $this->Form->postLink(__("<i class='glyphicon glyphicon-trash'></i>"), ['action' => 'delete', $post->id],['escape'=>false, 'confirm' => __('Are you sure you want to delete # {0}?', $post->id)]) ?>&nbsp;&nbsp;
-                    <?= $this->Html->link(__("<i class='glyphicon glyphicon-comment'></i>"), ['action' => 'comment', $post->id],['escape'=>false]) ?>
+                    <?= $this->Html->link(__("<i class='fa fa-eye'></i>"), ['action' => 'view', $post->id],['escape'=>false]) ?>&nbsp;&nbsp;
+                    <?= $this->Html->link(__("<i class='glyphicon glyphicon-comment'></i>"), ['action' => 'comment', $post->id],['escape'=>false]) ?>&nbsp;&nbsp;
+                    <?php
+                    $session_user = $this->request->session()->read('Auth.User.username');
+                    if($post->user->username == $session_user)
+                    {
+                        echo $this->Html->link(__("<i class='glyphicon glyphicon-edit'></i>"), ['action' => 'edit', $post->id],['escape'=>false]); ?>
+                        &nbsp;&nbsp;
+                        <?php
+                        echo $this->Form->postLink(__("<i class='glyphicon glyphicon-trash'></i>"), ['action' => 'delete', $post->id],['escape'=>false, 'confirm' => __('Are you sure you want to delete # {0}?', $post->id)]) ;
+                    }
+                    ?>
+                   
+                    
                 </td>
             </tr>
             <?php endforeach; ?>

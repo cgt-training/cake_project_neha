@@ -53,7 +53,13 @@
                             <td class="actions">
                                 <?= $this->Html->link(__("<i class='fa fa-eye'></i>"), ['action' => 'view', $article->id],['escape'=>false]) ?>&nbsp;&nbsp;
                                 <?= $this->Html->link(__("<i class='glyphicon glyphicon-edit'></i>"), ['action' => 'edit', $article->id],['escape'=>false]) ?>&nbsp;&nbsp;
-                                <?= $this->Form->postLink(__("<i class='glyphicon glyphicon-trash'></i>"), ['action' => 'delete', $article->id],['escape'=>false,'confirm' => __('Are you sure you want to delete # {0}?', $article->id)]) ?>
+                                <?php
+                                $user_session = $this->request->session()->read('Auth.User');
+                                if($user_session['role']=='admin')
+                                {
+                                  echo $this->Form->postLink(__("<i class='glyphicon glyphicon-trash'></i>"), ['action' => 'delete', $article->id],['escape'=>false,'confirm' => __('Are you sure you want to delete # {0}?', $article->id)]);
+                                }
+                                ?>
                             </td>
                           </tr>
                           <?php

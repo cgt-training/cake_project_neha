@@ -102,6 +102,12 @@ class PostsController extends AppController
      */
     public function delete($id = null)
     {
+        $user_session = $this->request->session()->read('Auth.User');
+        if($user_session['role'] != 'admin')
+        {
+            $this->Flash->error(__('You are not authorized to delete post.'));
+            return $this->redirect(['action' => 'index']);
+        }
         $this->request->allowMethod(['post', 'delete']);
         $post = $this->Posts->get($id);
         if ($this->Posts->delete($post)) {

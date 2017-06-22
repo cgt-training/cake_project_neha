@@ -20,7 +20,15 @@
             <div class="box box-primary">
                 <div class="box-body box-profile">
                   <ul class="list-group list-group-unbordered">
+                  <?php
+                  $user_session = $this->request->session()->read('Auth.User');
+                  if($user_session['role']=='admin')
+                  {
+                    ?>
                     <li class="list-group-item"><b><?= $this->Form->postLink(__('Delete Branch'),['action' => 'delete', $branch->id], ['confirm' => __('Are you sure you want to delete # {0}?', $branch->id)])?></b></li>
+                    <?php 
+                  }
+                  ?>
                     <li class="list-group-item"><b><?= $this->Html->link(__('List Branches'), ['action' => 'index']) ?></b></li>
                     <li class="list-group-item"><b><?= $this->Html->link(__('List Companies'), ['controller' => 'Companies', 'action' => 'index']) ?></b></li>
                     <li class="list-group-item"><b><?= $this->Html->link(__('Add Company'), ['controller' => 'Companies', 'action' => 'add']) ?></b></li>

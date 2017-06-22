@@ -22,10 +22,18 @@
         <div class="box box-primary">
             <div class="box-body box-profile">
               <ul class="list-group list-group-unbordered">
-                <li class="list-group-item">
-                  <b><?= $this->Form->postLink(__('Delete User'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?> 
-                  </b>
-                </li>
+              <?php
+                $user_session = $this->request->session()->read('Auth.User');
+                if($user_session['role']=='admin')
+                {
+                 ?>
+                  <li class="list-group-item">
+                    <b><?= $this->Form->postLink(__('Delete User'), ['action' => 'delete', $user->id], ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]) ?> 
+                    </b>
+                  </li>
+                  <?php
+                }
+                ?>
                 <li class="list-group-item">
                 <b><?= $this->Html->link(__('Edit User'), ['action' => 'edit', $user->id]) ?> </b>
                 </li>

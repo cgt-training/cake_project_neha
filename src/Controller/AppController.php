@@ -51,7 +51,6 @@ class AppController extends Controller
             
             $this->loadComponent('Auth', [
                 'loginRedirect' => [
-                    'authorize' => 'Controller',
                     'controller' => 'Dashboards',
                     'action' => 'index',
                     'prefix'=>'admin'
@@ -60,6 +59,7 @@ class AppController extends Controller
                     'controller' => 'Users',
                     'action' => 'login',
                 ],
+                 'authorize' => ['Controller'],
                 'authenticate' => [
                     'Form' => [
                         'fields' => ['username' => 'username', 'password' => 'password']
@@ -80,6 +80,7 @@ class AppController extends Controller
                 'action' => 'login',
                 'prefix' => false
             ],
+            'authorize' => ['Controller'],
             'authenticate' => [
                     'Form' => [
                         'fields' => ['username' => 'username', 'password' => 'password']
@@ -99,6 +100,27 @@ class AppController extends Controller
         //$this->loadComponent('Csrf');
     }
 
+    public function isAuthorized($user = null)
+    {
+        //pr($user);exit;
+        // Any registered user can access public functions
+        if (!$this->request->getParam('prefix')) {
+            return true;
+        }
+
+        // Only admins can access admin functions
+        if ($this->request->getParam('prefix') === 'admin') {
+            if($user['role']!= 'admin' && $user['role']!='subadmin')
+            {
+                $this->Flash->error(__('You are not authoried to access admin location'));
+                return $this->redirect(['controller'=>'Articles','action'=>'index','prefix'=>false]);
+                //return false;
+            }
+        }
+
+        // Default deny
+        return true;
+    }
     /**
      * Before render callback.
      *
@@ -117,7 +139,7 @@ class AppController extends Controller
     {
         if(isset($this->request->prefix) && ($this->request->prefix =='admin'))
         {
-           // $this->Auth->allow(['login']);
+            //$this->Auth->allow(['login']);
         }
         else
         {

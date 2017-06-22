@@ -24,8 +24,16 @@
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
                     <b><?= $this->Html->link(__('Edit Company'), ['action' => 'edit', $company->id]) ?> </b></li>
-                <li class="list-group-item">
-                    <b><?= $this->Form->postLink(__('Delete Company'), ['action' => 'delete', $company->id], ['confirm' => __('Are you sure you want to delete # {0}?', $company->id)]) ?></b> </li>
+                <?php
+                $user_session = $this->request->session()->read('Auth.User');
+                if($user_session['role']=='admin')
+                {
+                  ?>
+                  <li class="list-group-item">
+                    <b><?= $this->Form->postLink(__('Delete Company'), ['action' => 'delete', $company->id], ['confirm' => __('Are you sure you want to delete # {0}?', $company->id)]); ?></b> </li>
+                    <?php
+                  }
+                  ?>
                 <li class="list-group-item">
                     <b><?= $this->Html->link(__('List Companies'), ['action' => 'index']) ?></b> </li>
                 <li class="list-group-item">
@@ -101,7 +109,13 @@
                                 &nbsp;&nbsp;
                                 <?= $this->Html->link(__("<i class='glyphicon glyphicon-edit'></i>"), ['controller' => 'Branches', 'action' => 'edit', $branches->id],['escape'=>false]) ?>
                                 &nbsp;&nbsp;
-                                <?= $this->Form->postLink(__("<i class='glyphicon glyphicon-trash'></i>"), ['controller' => 'Branches', 'action' => 'delete', $branches->id], ['escape'=>false,'confirm' => __('Are you sure you want to delete # {0}?', $branches->id)]) ?>
+                                <?php
+                                $user_session = $this->request->session()->read('Auth.User');
+                                if($user_session['role']=='admin')
+                                {
+                                 echo $this->Form->postLink(__("<i class='glyphicon glyphicon-trash'></i>"), ['controller' => 'Branches', 'action' => 'delete', $branches->id], ['escape'=>false,'confirm' => __('Are you sure you want to delete # {0}?', $branches->id)]);
+                                }
+                                ?>
                             </td>
                         </tr>
                         <?php 
