@@ -71,7 +71,7 @@ class AppController extends Controller
         {
             $this->loadComponent('Auth', [
             'loginRedirect' => [
-                'controller' => 'Users',
+                'controller' => 'Articles',
                 'action' => 'index',
                 'prefix' => false
             ],
@@ -121,7 +121,7 @@ class AppController extends Controller
         }
         else
         {
-            $this->Auth->allow(['login','index', 'view', 'display']);
+            $this->Auth->allow(['login','register','index', 'view', 'display']);
         }
     }
 

@@ -132,6 +132,10 @@
             </span>
           </a> -->
         </li>
+        <li>
+        <?=  $this->Html->Link(__('<i class="fa fa-user"></i> <span> Manage Users </span>'),['controller'=>'Users','action'=>'index','prefix'=>'admin'],['escape'=>false]);?>
+
+        </li>
         <!-- <li>
           <a href="pages/mailbox/mailbox.html">
             <i class="fa fa-envelope"></i> <span>Mailbox</span>

@@ -25,10 +25,18 @@
 	      <li><?= $this->Html->link(__('ARTICLES'), ['controller'=>'Articles','action' => 'index'],['class'=>'navbar-brand']) ?></li>
 	      	<li><?= $this->Html->link(__('COMPANIES'), ['controller'=>'Companies','action' => 'index'],['class'=>'navbar-brand']) ?></li>
 	      	<li><?= $this->Html->link(__('BRANCHES'), ['controller'=>'Branches','action' => 'index'],['class'=>'navbar-brand']) ?></li>
-	        <li class="active">
+	        <!-- <li class="active">
 		        <?= $this->Html->link(__('USERS'), ['controller'=>'Users','action' => 'index'],['class'=>'navbar-brand']) ?>
 		        <span class="sr-only">(current)</span>
+	        </li> -->
+	        <?php if(!($this->request->session()->check('Auth.User.role')))
+	        {
+	        	?>
+	        <li class="active">
+		        <?= $this->Html->link(__('SIGN UP'), ['controller'=>'Users','action' => 'register'],['class'=>'navbar-brand']) ?>
+		        <span class="sr-only">(current)</span>
 	        </li>
+	        <?php }	        ?>
 	        
 	      	<li><?= $this->Html->link(__('POSTS'), ['controller'=>'Posts','action' => 'index'],['class'=>'navbar-brand']) ?></li>
 	        <?php if(!($this->request->session()->check('Auth.User.role')))
