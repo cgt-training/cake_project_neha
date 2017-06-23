@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\I18n\I18n;
 
 /**
  * Application Controller
@@ -44,7 +45,7 @@ class AppController extends Controller
         $this->loadComponent('Flash');
         $this->loadComponent('Cookie');
 //        $user = $this->request->session()->read('Auth.User.role');
-
+        I18n::locale('fr_FR');
         
         if(isset($this->request->prefix) && ($this->request->prefix =='admin'))
         {

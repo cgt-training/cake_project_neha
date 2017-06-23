@@ -1,6 +1,6 @@
 <div class="posts index large-12 medium-8 columns content">
     <h3><?= __('Posts') ?></h3>
-    <h3><?= $this->Html->link('Add New Post', ['action' => 'add']) ?></h3>
+    <h3><?= $this->Html->link(__('Add New Post'), ['action' => 'add']) ?></h3>
     <table cellpadding="0" cellspacing="0" width='100%' class="table table-responsive">
         <thead>
             <tr>
